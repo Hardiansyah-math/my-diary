@@ -284,6 +284,35 @@
   .same{grid-column:1/-1;text-align:center;font-size:.86rem;color:var(--muted);margin-top:6px}
   .same b{color:var(--gold)}
   @media(max-width:560px){.duel{gap:10px}.eq{padding:18px 10px 14px}.eq .t{font-size:.78rem}}
+
+  /* ===== KOMENTAR PEMBACA ===== */
+  .comments{padding:10px 0 90px}
+  .comments .cmt-head{text-align:center;max-width:640px;margin:0 auto 34px}
+  .comments .cmt-head h2{font-family:"Playfair Display",serif;font-weight:800;font-size:clamp(1.7rem,4.5vw,2.3rem);margin:10px 0 8px;color:var(--ink)}
+  .comments .cmt-head p{font-family:"Lora",serif;font-style:italic;color:var(--muted);margin:0;line-height:1.7}
+  .cmt-list{max-width:760px;margin:0 auto;display:grid;gap:16px}
+  .cmt-count{max-width:760px;margin:0 auto 14px;font-size:.78rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .cmt-empty{max-width:760px;margin:0 auto;text-align:center;font-family:"Lora",serif;font-style:italic;color:var(--muted);line-height:1.7}
+  .cmt{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;box-shadow:0 10px 28px rgba(59,42,23,.06)}
+  .cmt .who{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+  .cmt .who b{font-family:"Playfair Display",serif;font-size:1.05rem;color:var(--ink)}
+  .cmt .who time{margin-left:auto;font-size:.78rem;color:var(--muted)}
+  .cmt p{font-family:"Lora",serif;font-size:1.02rem;line-height:1.75;color:var(--ink-2);margin:0;white-space:pre-wrap}
+  .cmt.pending{opacity:.65;border-style:dashed}
+  .cmt.pending .tag{display:inline-block;margin-top:10px;font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:4px 10px;border-radius:999px}
+  .cmt-form{max-width:760px;margin:30px auto 0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px 24px 20px;box-shadow:0 10px 28px rgba(59,42,23,.06)}
+  .cmt-form h3{font-family:"Playfair Display",serif;font-size:1.25rem;margin:0 0 4px;color:var(--ink)}
+  .cmt-form .sub{font-size:.9rem;color:var(--muted);margin:0 0 16px;line-height:1.6}
+  .cmt-form label{display:block;font-size:.8rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin:14px 0 6px}
+  .cmt-form input[type="text"],.cmt-form textarea{width:100%;box-sizing:border-box;border:1.5px solid var(--line-strong);border-radius:12px;background:var(--bg);color:var(--ink);font:400 1rem "Plus Jakarta Sans",system-ui,sans-serif;padding:12px 14px}
+  .cmt-form textarea{min-height:110px;resize:vertical;line-height:1.6}
+  .cmt-form input:focus,.cmt-form textarea:focus{outline:3px solid var(--gold-soft);border-color:var(--gold)}
+  .cmt-form .send{margin-top:18px;display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;background:var(--accent);color:#fff;font:800 .95rem "Plus Jakarta Sans",sans-serif;padding:14px 26px;border-radius:999px;min-height:48px}
+  .cmt-form .send:hover{filter:brightness(1.07)}
+  .cmt-form .send[disabled]{opacity:.6;cursor:wait}
+  .cmt-form .note{font-size:.85rem;color:var(--muted);margin:14px 0 0;line-height:1.65}
+  .cmt-form .hp{position:absolute;left:-9999px;top:-9999px;height:0;width:0;opacity:0}
+  .cmt-feedback{max-width:760px;margin:16px auto 0;padding:14px 18px;border-radius:12px;background:var(--gold-soft);color:var(--ink-2);font-weight:600;font-size:.95rem;line-height:1.6;display:none}
 </style>
 </head>
 <body>
@@ -305,7 +334,8 @@
     <a href="../#terbaru">Catatan Terbaru</a><span class="dot" aria-hidden="true">◆</span>
     <a href="../#arsip">Arsip</a><span class="dot" aria-hidden="true">◆</span>
     <a href="#baca">Baca</a><span class="dot" aria-hidden="true">◆</span>
-    <a href="#penulis">Penulis</a>
+    <a href="#penulis">Penulis</a><span class="dot" aria-hidden="true">◆</span>
+    <a href="#komentar">Komentar</a>
     <span class="nav-tools" role="group" aria-label="Tampilan bacaan">
       <button class="tbtn" type="button" id="themeBtn" aria-pressed="false" title="Mode malam">☾</button>
       <button class="tbtn" type="button" data-size="1" aria-pressed="false" title="Huruf lebih kecil">A−</button>
@@ -512,6 +542,33 @@
   
 </main>
 
+
+<!-- ===== KOMENTAR PEMBACA ===== -->
+<section class="comments wrap" id="komentar" aria-label="Komentar pembaca">
+  <div class="cmt-head">
+    <p class="section-label" style="justify-content:center">Suara Pembaca</p>
+    <h2>Komentar Pembaca</h2>
+    <p>Tanggapan dari sesama guru dan pembaca Resahku. Komentar tampil setelah disetujui penulis — supaya ruang ini tetap hangat dan aman untuk semua.</p>
+  </div>
+
+  <p class="cmt-count" id="cmtCount"></p>
+  <div class="cmt-list" id="cmtList"></div>
+  <p class="cmt-empty" id="cmtEmpty" style="display:none">Belum ada komentar. Jadilah yang pertama menanggapi catatan ini.</p>
+
+  <form class="cmt-form" id="cmtForm">
+    <h3>Tulis Komentar</h3>
+    <p class="sub">Tidak perlu akun. Cukup nama dan tanggapan Bapak/Ibu.</p>
+    <label for="cmtName">Nama</label>
+    <input type="text" id="cmtName" maxlength="60" placeholder="Nama Bapak/Ibu" autocomplete="name" />
+    <label for="cmtText">Komentar</label>
+    <textarea id="cmtText" maxlength="1000" placeholder="Tulis tanggapan untuk catatan ini…"></textarea>
+    <input class="hp" type="text" id="cmtWebsite" tabindex="-1" autocomplete="off" aria-hidden="true" />
+    <button class="send" type="submit" id="cmtSend">Kirim Komentar</button>
+    <p class="note">Komentar akan tampil setelah disetujui penulis. Mohon gunakan bahasa yang santun — ruang ini dibaca juga oleh murid-murid kita.</p>
+  </form>
+  <div class="cmt-feedback" id="cmtFeedback" role="status"></div>
+</section>
+
 <footer>
   <div class="foot-in">
     <span><b>Resahku</b> — Diary Hardiansyah · Catatan ke-09: Dua Soal yang Sama, Jawaban yang Berbeda · Ditulis Selasa sore, 17 November 2026, di Terusan Nunyai.</span>
@@ -614,6 +671,82 @@
   } else {
     document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
   }
+</script>
+
+<script>
+  /* ===== Kolom Komentar Resahku (dimoderasi lewat Spreadsheet) ===== */
+  (function(){
+    var KOMENTAR_API_URL = "https://script.google.com/macros/s/AKfycbw1ySVBILScJ3JvPYp8E30YsPpdt9qqwaDi1riA3kiGf1meB8xyQMJMXbrJXGnO1kbe/exec"; /* alamat Web App Apps Script */
+    var CATATAN_ID = "ke-09";
+    var list = document.getElementById('cmtList');
+    var count = document.getElementById('cmtCount');
+    var empty = document.getElementById('cmtEmpty');
+    var form = document.getElementById('cmtForm');
+    var feedback = document.getElementById('cmtFeedback');
+    var sendBtn = document.getElementById('cmtSend');
+    var BULAN = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+
+    function fmtTanggal(iso){
+      var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || '');
+      if (!m) return '';
+      return parseInt(m[3], 10) + ' ' + BULAN[parseInt(m[2], 10) - 1] + ' ' + m[1];
+    }
+    function renderComment(nama, komentar, tanggal, pending){
+      var art = document.createElement('article');
+      art.className = 'cmt' + (pending ? ' pending' : '');
+      var who = document.createElement('div'); who.className = 'who';
+      var b = document.createElement('b'); b.textContent = nama;
+      who.appendChild(b);
+      if (tanggal) { var t = document.createElement('time'); t.textContent = tanggal; who.appendChild(t); }
+      var p = document.createElement('p'); p.textContent = komentar;
+      art.appendChild(who); art.appendChild(p);
+      if (pending) {
+        var tag = document.createElement('span'); tag.className = 'tag';
+        tag.textContent = 'Menunggu persetujuan penulis';
+        art.appendChild(tag);
+      }
+      list.appendChild(art);
+    }
+    function setCount(n){ count.textContent = n > 0 ? (n + ' komentar') : ''; empty.style.display = n > 0 ? 'none' : 'block'; }
+    function showFeedback(msg){ feedback.style.display = 'block'; feedback.textContent = msg; }
+
+    if (!KOMENTAR_API_URL) {
+      empty.style.display = 'block';
+      empty.textContent = 'Kolom komentar sedang disiapkan — silakan kembali lagi nanti.';
+      form.style.display = 'none';
+      return;
+    }
+
+    fetch(KOMENTAR_API_URL + '?action=list&catatan=' + encodeURIComponent(CATATAN_ID))
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        var arr = (data && data.komentar) || [];
+        arr.forEach(function(c){ renderComment(c.nama, c.komentar, fmtTanggal(c.tanggal), false); });
+        setCount(arr.length);
+      })
+      .catch(function(){ setCount(0); });
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var nama = document.getElementById('cmtName').value.trim();
+      var teks = document.getElementById('cmtText').value.trim();
+      var hp = document.getElementById('cmtWebsite').value.trim();
+      if (!nama || !teks) { showFeedback('Isi nama dan komentarnya dulu, ya.'); return; }
+      sendBtn.disabled = true;
+      fetch(KOMENTAR_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ catatan: CATATAN_ID, nama: nama, komentar: teks, website: hp })
+      }).then(function(){
+        renderComment(nama, teks, '', true);
+        setCount(list.querySelectorAll('.cmt').length);
+        showFeedback('Terima kasih! Komentar Anda sudah terkirim dan akan tampil setelah disetujui penulis.');
+        form.reset();
+      }).catch(function(){
+        showFeedback('Maaf, komentar belum terkirim. Periksa koneksi lalu coba lagi.');
+      }).then(function(){ sendBtn.disabled = false; });
+    });
+  })();
 </script>
 </body>
 </html>
